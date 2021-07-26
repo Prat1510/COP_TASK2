@@ -7,9 +7,9 @@ struct point {
   int x, y;
 
   point add(point &p) {
-    point ans = new point();
-    ans.x = p.x + x;
-    ans.y = p.y + y;
+    int x = p.x + x;
+    int y = p.y + y;
+    point ans = point{x , y};
     return ans;
   }
 
@@ -33,30 +33,34 @@ struct point {
     int ans = (int)sqrt( pow(x_diff, 2) + pow(y_diff, 2) );
     return ans;
   }
-}
+};
 
 
 enum class mode {
-single;
-dual;
-}
+  single = 0,
+  dual,
+};
 
 namespace block {
 
-x = 23;
-y = 23;
-size = 20;
-xsize = (x + 1)/2 + 1;
-ysize = (y + 1)/2 + 1;
+enum {
+  x = 23,
+  y = 23,
+  size = 20,
+  xsize = (x + 1) / 2 + 1,
+  ysize = (y + 1) / 2 + 1,
+};
 
 }
 
 namespace display {
 
-height = 23*20 + 120;
-width = 23*20;
-bar = 23*20;
-fps = 60;
-bpp = 32;
+enum {
+  height = 23 * 20 + 120,
+  width = 23 * 20,
+  bar = 23 * 20,
+  fps = 60,
+  bpp = 32,
+};
 
 }
