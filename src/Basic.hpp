@@ -7,15 +7,14 @@ struct point {
   int x, y;
 
   point add(point &p) {
-    int x = p.x + x;
-    int y = p.y + y;
+    x = p.x + x;
+    y = p.y + y;
     point ans = point{x , y};
     return ans;
   }
 
-  void increment(point &p) {
-    x = x + p.x;
-    y = y + p.y;
+  point increment(point &p) {
+    return point{x + p.x,y + p.y};
   }
 
   bool equals(point &p) {
