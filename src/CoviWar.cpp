@@ -17,7 +17,7 @@ using namespace std;
 
 void CoviWar::startup_game() {
 	// light blue background
-	SDL_SetRenderDrawColor(renderer,173,216,230, 255);
+	SDL_SetRenderDrawColor(renderer, 173, 216, 230, 255);
 	SDL_RenderClear(renderer);
 	// cout << counter << endl;
 	if (counter == 0) {
@@ -118,24 +118,18 @@ void CoviWar::startup_game() {
 void CoviWar::pregame_game() {
 	map->show(stage);
 	show_gamebar();
-	// show_money();
-	// show_sanitized();
-	// show_infected();
-	// show_masked();
-	// cout<<"map"<<endl;
 	man1->show(M);
 	if (M == mode::dual)
 	{
 		man2->show(M);
 	}
-	// coin->show();
-	// virus->show();
+
 	if (counter == 0) {
 		refresh++;
 		if (refresh < 180) {
 			point p1 = point{140, 150};
 			point p2 = point{90, 80};
-			textMaster->renderText(colors::white, TextSize::large, "STAGE : " + to_string(stage+1) , p1);
+			textMaster->renderText(colors::white, TextSize::large, "STAGE : " + to_string(stage + 1) , p1);
 			textMaster->renderText(colors::white, TextSize::small, "LET'S CONQUER COVID-19", p2);
 		}
 		else {
@@ -159,11 +153,13 @@ void CoviWar::play_game() {
 	}
 	coin->show();
 	virus->show();
+
 	if (inputMaster->is_edge_key(0, 7) || inputMaster->is_edge_key(1, 7)) {
 		currPhase = phase::pause;
 		refresh = 0;
 		counter = 0;
 	}
+
 	if (counter == 0) {
 		man1->move(M, *map);
 		if (man1->get_sanitized() > 0) {
@@ -176,93 +172,10 @@ void CoviWar::play_game() {
 		if (man1->get_masked() > 0) {
 			man1->set_masked(true, man1->get_masked() - 1);
 		}
-		else{
-			man1->set_masked(false,0);
-		}
-
-		if (man1->get_infected() > 0){
-			man1->set_infected(true, man1->get_infected() - 1);	
-		} 
-		else{
-			man1->set_infected(false,0);
-		}
-
-		if (M == mode::dual) {
-			man2->move(M, *map);
-			if (man2->get_sanitized() > 0) {
-				man2->set_sanitized(true, man2->get_sanitized() - 1);
-			}
-			else {
-				man2->set_sanitized(false, 0);
-			}
-
-			if (man2->get_masked() > 0) {
-				man2->set_masked(true, man2->get_masked() - 1);
-			}
-			else{
-				man2->set_masked(false,0);
-			}
-
-			if (man2->get_infected() > 0){
-				man2->set_infected(true, man2->get_infected() - 1);	
-			} 
-			else{
-				man2->set_infected(false,0);
-			}
-		}
-
-		virus->move(stage, *map, *man1, *man2);
-		if (coin->findState(*man1, *man2, M)) {
-			counter++;
-		}
-		else if (virus->virus_catch_man(M, *man1, *man2)) {
-			counter += 2;
-		}
-	}
-	else if (counter == 1) {
-		if (stage >= 1) {
-			currPhase = phase::over;
-			counter = 0;
-		}
-		else if (stage == 0) {
-			// currPhase = phase::pregame;
-			// stage++;
-			// map->initialise(M);
-			// coin->init(*map);
-			// virus->init(*map);
-			counter = 0;
-			currPhase = phase::pregame;
-			counter = 0;
-			stage = 1;
-			refresh = 0;
-			srand((unsigned int)time(nullptr));
-			map->initialise(M);
-			// cout<<"here"<<end;
-			coin->init(*map);
-			virus->init(*map);
-
-			// man1
-			man1->init();
-			// man1->set_lives(3);
-			// man1->set_money(0);
+		else {
 			man1->set_masked(false, 0);
-			man1->set_sanitized(false, 0);
-			man1->set_infected(false, 0);
-
-			//
-			if (M == mode::dual)
-			{
-				man2->init();
-				// man2->set_lives(3);
-				// man2->set_money(0);
-				man2->set_masked(false, 0);
-				man2->set_sanitized(false, 0);
-				man2->set_infected(false, 0);
-			}
 		}
-	}
-	else if (counter == 2) {
-		//infected state
+
 		if (man1->is_infected()) {
 			if (man1->get_infected()) {
 				man1->set_infected(true, man1->get_infected() - 1);
@@ -271,41 +184,7 @@ void CoviWar::play_game() {
 				man1->set_lives(man1->get_lives() - 1);
 				man1->set_infected(false, 0);
 				man1->init();
-				counter = 0;
 			}
-		}
-
-		if (man2->is_infected()) {
-			if (man2->get_infected()) {
-				man2->set_infected(true, man2->get_infected() - 1);
-			}
-			else {
-				man2->set_lives(man2->get_lives() - 1);
-				man2->set_infected(false, 0);
-				man2->init();
-				counter = 0;
-			}
-		}
-
-		if (man1->get_lives() == 0 || man2->get_lives() == 0)
-		{
-			currPhase = phase::over;
-			counter = 0;
-		}
-
-		man1->move(M, *map);
-		if (man1->get_sanitized() > 0) {
-			man1->set_sanitized(true, man1->get_sanitized() - 1);
-		}
-		else {
-			man1->set_sanitized(false, 0);
-		}
-
-		if (man1->get_masked() > 0) {
-			man1->set_masked(true, man1->get_masked() - 1);
-		}
-		else{
-			man1->set_masked(false,0);
 		}
 
 		if (M == mode::dual) {
@@ -320,43 +199,90 @@ void CoviWar::play_game() {
 			if (man2->get_masked() > 0) {
 				man2->set_masked(true, man2->get_masked() - 1);
 			}
-			else{
-				man2->set_masked(false,0);
+			else {
+				man2->set_masked(false, 0);
+			}
+
+			if (man2->is_infected()) {
+				if (man2->get_infected()) {
+					man2->set_infected(true, man2->get_infected() - 1);
+				}
+				else {
+					man2->set_lives(man2->get_lives() - 1);
+					man2->set_infected(false, 0);
+					man2->init();
+					counter = 0;
+				}
 			}
 		}
 
-		virus->move(stage, *map, *man1, *man2);
-		if (coin->findState(*man1, *man2, M)) {
-			counter--;
+		if (M == mode :: single) {
+			if (man1->get_lives() == 0) {
+				currPhase = phase::over;
+				counter = 0;
+			}
 		}
-		else if (virus->virus_catch_man(M, *man1, *man2)) {
-			counter = 2;
-		}
-		if (inputMaster->is_edge_key(0, 7) || inputMaster->is_edge_key(1, 7)) {
-			currPhase = phase::pause;
+		else {
+			if (man1->get_lives() == 0 || man2->get_lives() == 0) {
+				currPhase = phase::over;
+				counter = 0;
+			}
+
+			// if (man1->get_lives() == 0 && man1->get_money() < man2->get_money()) {
+			// 	currPhase = phase::over;
+			// 	counter = 0;
+			// }
+
+			// if (man2->get_lives() == 0 && man1->get_money() > man2->get_money()) {
+			// 	currPhase = phase::over;
+			// 	counter = 0;
+			// }
 		}
 
-		// next state
-		
-		// else {
-		// 	if (man1->is_infected()) {
-		// 		if (!man1->get_infected()) {
-		// 			man1->set_infected(false, 0);
-		// 			man1->init();
-		// 			counter = 0;
-		// 		}
-		// 	}
-		// 	if (man2->is_infected()) {
-		// 		if (!man2->get_infected()) {
-		// 			man2->set_infected(false, 0);
-		// 			man2->init();
-		// 			counter = 0;
-		// 		}
-		// 	}
-		// }
-		// virus not reinitialised
+		virus->move(stage, *map, *man1, *man2);
+		virus->virus_catch_man(M, *man1);
+		virus->virus_catch_man(M, *man2);
+
+		if (coin->findState(*man1, *man2, M)) {
+			counter++;
+		}
+	}
+	else if (counter == 1) {
+		if (stage >= 1) {                        //both stages are over
+			currPhase = phase::over;
+			counter = 0;
+		}
+		else if (stage == 0) {                   //play second stage
+
+			srand((unsigned int)time(nullptr));
+			map->initialise(M);
+
+			coin->init(*map);
+			virus->init(*map);
+
+			man1->init();
+			man1->set_masked(false, 0);
+			man1->set_sanitized(false, 0);
+			man1->set_infected(false, 0);
+
+			if (M == mode::dual)
+			{
+				man2->init();
+				man2->set_masked(false, 0);
+				man2->set_sanitized(false, 0);
+				man2->set_infected(false, 0);
+			}
+
+			counter = 0;
+			currPhase = phase::pregame;
+			counter = 0;
+			stage = 1;
+			refresh = 0;
+		}
 	}
 }
+
+
 void CoviWar::pause_game() {
 	coin->show();
 	virus->show();
@@ -397,23 +323,23 @@ void CoviWar::over_game() {
 
 	if (M == mode::single)
 	{
-		if (man1->get_lives() == 0){
+		if (man1->get_lives() == 0) {
 			point p1 = point{150, 100};
 			point p2 = point{95, 150};
-			point p3 = point{135 ,220};	
+			point p3 = point{135 , 220};
 			textMaster->renderText(colors::light_brown, TextSize::large, "OOPS!!!", p1);
 			textMaster->renderText(colors::light_brown, TextSize::small, "BETTER LUCK NEXT TIME", p2);
 			textMaster->renderText(colors::light_brown, TextSize::small, "SCORE IS : " + to_string(man1->get_money()), p3);
 		}
-		else{
+		else {
 			point p1 = point{135, 100};
 			point p2 = point{100, 150};
-			point p3 = point{135 ,220};	
+			point p3 = point{135 , 220};
 			textMaster->renderText(colors::light_brown, TextSize::large, "HOORAY!!!", p1);
 			textMaster->renderText(colors::light_brown, TextSize::small, "U CONQUERED COVID-19", p2);
 			textMaster->renderText(colors::light_brown, TextSize::small, "SCORE IS : " + to_string(man1->get_money()), p3);
 		}
-		
+
 		point p3 = point{80, 400};
 		if (refresh < 30) {textMaster->renderText(colors::white, TextSize::small, "PRESS ENTER TO CONTINUE", p3); refresh++;}
 		else if (refresh < 60) {refresh++;}

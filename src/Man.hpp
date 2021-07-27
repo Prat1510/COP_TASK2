@@ -29,194 +29,198 @@ class Man {
 	direction dir;
 
 public:
-	Man(InputMaster* input_master, ImageMaster* image_master, int id): 
+	Man(InputMaster* input_master, ImageMaster* image_master, int id):
 		Input_Master(input_master), Image_Master(image_master), ID(id) {}
 
-	void init(){
+	void init() {
 		int size = block::size;
-		if (ID == 0){
-			coordinate = {2, block::y - 2};
+		if (ID == 0) {
+			coordinate = {1, block::y - 2};
 			next_coordinate = coordinate;
-			Pos_pixel_val = {coordinate.y*size, coordinate.x*size};
+			Pos_pixel_val = {coordinate.x * size, coordinate.y * size};
 			dir = direction::up;
 		}
-		else{
-			coordinate = {2, block::y - 2};
+		else {
+			coordinate = {block::x - 2, 1};
 			next_coordinate = coordinate;
-			Pos_pixel_val = {coordinate.y*size, coordinate.x*size};
+			Pos_pixel_val = {coordinate.x * size, coordinate.y * size};
 			dir = direction::down;
 		}
 	}
 
-	void show(mode M){
+	void show(mode M) {
 		int size = block::size;
-		if (ID == 0){
+		if (ID == 0) {
 			SDL_Texture *Texture_man1;
-			switch(dir){
-				case direction::up:{
-					Texture_man1 = Image_Master->get_image(image_map["player1_u"]);
-					break;
-				}
-				case direction::down:{
-					Texture_man1 = Image_Master->get_image(image_map["player1_d"]);
-					break;
-				}
-				case direction::left:{
-					Texture_man1 = Image_Master->get_image(image_map["player1_l"]);
-					break;
-				}
-				case direction::right:{
-					Texture_man1 = Image_Master->get_image(image_map["player1_r"]);
-					break;
-				}
+			switch (dir) {
+			case direction::up: {
+				Texture_man1 = Image_Master->get_image(0);
+				break;
+			}
+			case direction::down: {
+				Texture_man1 = Image_Master->get_image(14);
+				break;
+			}
+			case direction::left: {
+				Texture_man1 = Image_Master->get_image(16);
+				break;
+			}
+			case direction::right: {
+				Texture_man1 = Image_Master->get_image(12);
+				break;
+			}
 			}
 			SDL_Rect showCoordinate = {Pos_pixel_val.x, Pos_pixel_val.y, size, size};
-			SDL_Rect inputCoordinate = {0,0,size,size};
+			SDL_Rect inputCoordinate = {0, 0, size, size};
 			Image_Master->render_image(*Texture_man1, inputCoordinate, showCoordinate);
 			SDL_DestroyTexture(Texture_man1);
 			return;
 		}
 		else {
-			if (M == mode::dual){
+			if (M == mode::dual) {
 				SDL_Texture *Texture_man2;
-				switch(dir){
-					case direction::up:{
-						Texture_man2 = Image_Master->get_image(image_map["player2_u"]);
-						break;
-					}
-					case direction::down:{
-						Texture_man2 = Image_Master->get_image(image_map["player2_d"]);
-						break;
-					}
-					case direction::left:{
-						Texture_man2 = Image_Master->get_image(image_map["player2_l"]);
-						break;
-					}
-					case direction::right:{
-						Texture_man2 = Image_Master->get_image(image_map["player2_r"]);
-						break;
-					}
+				switch (dir) {
+				case direction::up: {
+					Texture_man2 = Image_Master->get_image(17);
+					break;
+				}
+				case direction::down: {
+					Texture_man2 = Image_Master->get_image(1);
+					break;
+				}
+				case direction::left: {
+					Texture_man2 = Image_Master->get_image(13);
+					break;
+				}
+				case direction::right: {
+					Texture_man2 = Image_Master->get_image(15);
+					break;
+				}
 				}
 				SDL_Rect showCoordinate = {Pos_pixel_val.x, Pos_pixel_val.y, size, size};
-				SDL_Rect inputCoordinate = {0,0,size,size};
+				SDL_Rect inputCoordinate = {0, 0, size, size};
 				Image_Master->render_image(*Texture_man2, inputCoordinate, showCoordinate);
 				SDL_DestroyTexture(Texture_man2);
-				return;				
+				return;
 			}
 			return;
 		}
 	}
 
-	void move(mode M, Map &map){
+	void move(mode M, Map &map) {
 		if (M != mode::dual && ID != 0) return;
 		int size = block::size;
-		int next_pos_y = next_coordinate.y*size;
-		int next_pos_x = next_coordinate.x*size;
+		int next_pos_y = next_coordinate.y * size;
+		int next_pos_x = next_coordinate.x * size;
 
 		if (next_pos_y == Pos_pixel_val.y && next_pos_x == Pos_pixel_val.x)
 		{
 			coordinate = next_coordinate;
 			point temp = coordinate;
-			if (Input_Master->is_pressed_key(ID, 0)){
+			if (Input_Master->is_pressed_key(ID, 0)) {
 				dir = direction::up;
-				temp.y++;
-			}
-			else if (Input_Master->is_pressed_key(ID, 1)){
-				dir = direction::down;
 				temp.y--;
 			}
-			else if (Input_Master->is_pressed_key(ID, 2)){
+			else if (Input_Master->is_pressed_key(ID, 1)) {
+				dir = direction::down;
+				temp.y++;
+			}
+			else if (Input_Master->is_pressed_key(ID, 2)) {
 				dir = direction::left;
 				temp.x--;
 			}
-			else if (Input_Master->is_pressed_key(ID, 3)){
+			else if (Input_Master->is_pressed_key(ID, 3)) {
 				dir = direction::right;
 				temp.x++;
 			}
 
-			if (map.FindState(temp) != Element_Map::block){
+			if (map.FindState(temp) != Element_Map::block) {
 				next_coordinate = temp;
 			}
 		}
-		else{
-			if (next_pos_x > Pos_pixel_val.x){
+		else {
+			if (next_pos_x > Pos_pixel_val.x) {
 				Pos_pixel_val.x += 2;
 			}
-			else if (next_pos_x < Pos_pixel_val.x){
+			else if (next_pos_x < Pos_pixel_val.x) {
 				Pos_pixel_val.x -= 2;
 			}
-			if (next_pos_y > Pos_pixel_val.y){
+			if (next_pos_y > Pos_pixel_val.y) {
 				Pos_pixel_val.y += 2;
 			}
-			else if (next_pos_y < Pos_pixel_val.y){
+			else if (next_pos_y < Pos_pixel_val.y) {
 				Pos_pixel_val.y -= 2;
 			}
 		}
 		return;
 	}
 
-	bool is_infected(){
+	bool is_infected() {
 		return infected;
 	}
-	bool is_sanitized(){
+	bool is_sanitized() {
 		return sanitized;
 	}
-	bool is_masked(){
+	bool is_masked() {
 		return masked;
 	}
-	int get_infected(){
+	int get_infected() {
 		return infected_val;
 	}
-	int get_sanitized(){
+	int get_sanitized() {
 		return sanitized_val;
 	}
-	int get_masked(){
+	int get_masked() {
 		return masked_val;
 	}
-	void set_infected(bool Infected, int x){
+	void set_infected(bool Infected, int x) {
 		infected = Infected;
 		infected_val = x;
 		return;
 	}
-	void set_sanitized(bool Sanitized, int x){
+	void set_sanitized(bool Sanitized, int x) {
 		sanitized = Sanitized;
 		sanitized_val = x;
 		return;
 	}
-	void set_masked(bool Masked, int x){
+	void set_masked(bool Masked, int x) {
 		masked = Masked;
 		masked_val = x;
 		return;
 	}
 
-	int get_money(){
+	int get_money() {
 		return money;
 	}
-	void set_money(int Money){
+	void set_money(int Money) {
 		money = Money;
 		return;
 	}
 
-	int get_lives(){
+	int get_lives() {
 		return life;
 	}
-	void set_lives(int Lives){
+	void set_lives(int Lives) {
 		life = Lives;
 		return;
 	}
 
-	point get_pixel_val(){
+	point get_pixel_val() {
 		return Pos_pixel_val;
 	}
 
-	void set_pixel_val(point &val){
+	void set_pixel_val(point &val) {
 		Pos_pixel_val = val;
 		return;
 	}
 
-	point get_cord(){
+	point get_cord() {
 		return coordinate;
 	}
 
-	~Man(){}
+	int get_id() {
+		return ID;
+	}
+
+	~Man() {}
 };

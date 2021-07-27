@@ -19,9 +19,9 @@ enum class edible {
 
 class Coin
 {
-	vector<vector<edible>>allStates(block::y, vector<edible>(block::x));
-	ImageMaster *imageMaster;
+	edible allStates[block::y][block::x];
 	SoundMaster *music;
+	ImageMaster *imageMaster;
 
 public:
 	Coin(SoundMaster *music_, ImageMaster *imageMaster_) : music(music_), imageMaster(imageMaster_) {}
@@ -52,29 +52,33 @@ public:
 	}
 
 	void show() {
-		SDL_Texture *coin_texture = imageMaster->get_image(10);
-		SDL_Texture *medicine_texture = imageMaster->get_image(12);
-		SDL_Texture *mask_texture = imageMaster->get_image(14);
-		SDL_Texture *sanitizer_texture = imageMaster->get_image(13);
+		SDL_Texture *coin_texture = imageMaster->get_image(2);
+		SDL_Texture *medicine_texture = imageMaster->get_image(6);
+		SDL_Texture *mask_texture = imageMaster->get_image(8);
+		SDL_Texture *sanitizer_texture = imageMaster->get_image(7);
 
-		int sz = block::sz;
-		SDL_Rect rect1 = {0, 0, sz, block::sz};
-
+		int sz = block::size;
 		for (int i = 0; i < block::y; i++) {
 			for (int j = 0; j < block::x; j++) {
 
-				SDL_Rect rect2 = {j * sz, i * sz, sz, sz};
-
 				if (allStates[i][j] == edible::coin) {
+					SDL_Rect rect1 = {0, 0, sz / 4, sz / 4};
+					SDL_Rect rect2 = {j * sz + 7, i * sz + 7, sz / 4, sz / 4};
 					imageMaster->render_image(*coin_texture, rect1, rect2);
 				}
 				else if (allStates[i][j] == edible::medicine) {
+					SDL_Rect rect1 = {0, 0, sz, sz};
+					SDL_Rect rect2 = {j * sz, i * sz, sz, sz};
 					imageMaster->render_image(*medicine_texture, rect1, rect2);
 				}
 				else if (allStates[i][j] == edible::mask) {
+					SDL_Rect rect1 = {0, 0, sz, sz};
+					SDL_Rect rect2 = {j * sz, i * sz, sz, sz};
 					imageMaster->render_image(*mask_texture, rect1, rect2);
 				}
 				else if (allStates[i][j] == edible::sanitizer) {
+					SDL_Rect rect1 = {0, 0, sz, sz};
+					SDL_Rect rect2 = {j * sz, i * sz, sz, sz};
 					imageMaster->render_image(*sanitizer_texture, rect1, rect2);
 				}
 			}
@@ -90,8 +94,8 @@ public:
 
 
 	bool findState (Man &m1, Man &m2, mode M) {
-		int temp = m1.get_cord();
-		int x = temp.x, int y = temp.y;
+		point temp = m1.get_cord();
+		int x = temp.x, y = temp.y;
 
 		if (allStates[y][x] == edible::coin) {
 			allStates[y][x] = edible::nothing;
@@ -99,49 +103,49 @@ public:
 			//play music
 		}
 		else if (allStates[y][x] == edible::medicine && m1.is_infected()) {
-			allStates[y][x] = edible::nothing;
+			// allStates[y][x] = edible::nothing;
 			m1.set_money(m1.get_money() + 50);
-			m1.set_infected(false);
+			m1.set_infected(false, 0);
 			//play music
 		}
 		else if (allStates[y][x] == edible::mask) {
 			allStates[y][x] = edible::nothing;
 			m1.set_money(m1.get_money() + 25);
-			m1.set_mask(400);
+			m1.set_masked(true, 400);
 			//play music
 		}
 		else if (allStates[y][x] == edible::sanitizer) {
-			allStates[y][x] == edible::nothing;
+			allStates[y][x] = edible::nothing;
 			m1.set_money(m1.get_money() + 25);
-			m1.set_sanitizer(400);
+			m1.set_sanitized(true, 300);
 			//play music
 		}
 
-		if (M == 1) {
-			int temp = m2.get_cord();
-			int x = temp.x, int y = temp.y;
+		if (M == mode::dual) {
+			point temp = m2.get_cord();
+			int x = temp.x, y = temp.y;
 
 			if (allStates[y][x] == edible::coin) {
 				allStates[y][x] = edible::nothing;
-				m1.set_money(m1.get_money() + 10);
+				m2.set_money(m2.get_money() + 10);
 				//play music
 			}
-			else if (allStates[y][x] == edible::medicine && m1.is_infected()) {
-				allStates[y][x] = edible::nothing;
-				m1.set_money(m1.get_money() + 50);
-				m1.set_infected(false);
+			else if (allStates[y][x] == edible::medicine && m2.is_infected()) {
+				// allStates[y][x] = edible::nothing;
+				m2.set_money(m2.get_money() + 50);
+				m2.set_infected(false, 0);
 				//play music
 			}
 			else if (allStates[y][x] == edible::mask) {
 				allStates[y][x] = edible::nothing;
-				m1.set_money(m1.get_money() + 25);
-				m1.set_mask(400);
+				m2.set_money(m2.get_money() + 25);
+				m2.set_masked(true, 400);
 				//play music
 			}
 			else if (allStates[y][x] == edible::sanitizer) {
-				allStates[y][x] == edible::nothing;
-				m1.set_money(m1.get_money() + 25);
-				m1.set_sanitizer(400);
+				allStates[y][x] = edible::nothing;
+				m2.set_money(m2.get_money() + 25);
+				m2.set_sanitized(true, 300);
 				//play music
 			}
 		}
@@ -159,7 +163,7 @@ public:
 		return count == 0;
 	}
 
-	~Coin();
+	~Coin() {};
 
 };
 
