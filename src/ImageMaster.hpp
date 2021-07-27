@@ -36,7 +36,7 @@ class ImageMaster
 	vector<SDL_Surface*> Images;
 	SDL_Renderer* gRenderer;
 
-	void loadPng(const char *path, int image_num)
+	void loadPng(const char *path)
 	{
 		// cout << "yes" << endl;
 		// SDL_Texture* newTexture = NULL;
@@ -79,7 +79,7 @@ public:
 			string s = "./data/" + to_string(i) + ".png";
 			const char *path = s.c_str();
 			// cout << s << endl;
-			loadPng(path, i);
+			loadPng(path);
 			// cout << s << endl;
 		}
 		// cout << "yes" << endl;
@@ -88,7 +88,7 @@ public:
 
 	SDL_Texture* get_image(int index)
 	{
-		return SDL_CreateTextureFromSurface( gRenderer,Images[index]);
+		return SDL_CreateTextureFromSurface( gRenderer, Images[index]);
 	}
 
 	void render_image(SDL_Texture &texture, SDL_Rect &src, SDL_Rect &dst)

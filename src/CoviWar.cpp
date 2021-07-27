@@ -16,16 +16,13 @@
 using namespace std;
 
 void CoviWar::startup_game() {
-	// light blue background
 	SDL_SetRenderDrawColor(renderer, 173, 216, 230, 255);
 	SDL_RenderClear(renderer);
-	// cout << counter << endl;
+
 	if (counter == 0) {
 		point p1 =  point{115, 200};
 
-		// cout << counter << endl;
 		textMaster->renderText(colors::black, TextSize::large, "C o v i - W A R", p1);
-		// cout << counter << endl;
 
 		if (++refresh < 40) {
 			point p2 = point{85, 360};
@@ -36,10 +33,10 @@ void CoviWar::startup_game() {
 
 		if (inputMaster->is_edge_key(0, 6) || inputMaster->is_edge_key(1, 6))
 		{
+			Mix_PlayChannel(5, music->getEffects("stage"), 0);
 			refresh = 0;
 			counter++;
 		}
-		// cout << counter << endl;
 	}
 	else if (counter == 1) {
 		if (++refresh < 40) {
@@ -70,6 +67,7 @@ void CoviWar::startup_game() {
 
 		if (inputMaster->is_edge_key(0, 6) || inputMaster->is_edge_key(1, 6))
 		{
+			Mix_PlayChannel(5, music->getEffects("stage"), 0);
 			counter++;
 		}
 		if (inputMaster->is_edge_key(0, 1) || inputMaster->is_edge_key(1, 1))
@@ -135,6 +133,7 @@ void CoviWar::pregame_game() {
 		else {
 			currPhase = phase::play;
 			refresh = 0;
+			Mix_PlayChannel(0, music->getEffects("start"), 0);
 		}
 	}
 }
@@ -182,6 +181,7 @@ void CoviWar::play_game() {
 			}
 			else {
 				man1->set_lives(man1->get_lives() - 1);
+				Mix_PlayChannel(1, music->getEffects("end"), 0);
 				man1->set_infected(false, 0);
 				man1->init();
 			}
@@ -209,6 +209,7 @@ void CoviWar::play_game() {
 				}
 				else {
 					man2->set_lives(man2->get_lives() - 1);
+					Mix_PlayChannel(1, music->getEffects("end"), 0);
 					man2->set_infected(false, 0);
 					man2->init();
 					counter = 0;
@@ -218,12 +219,14 @@ void CoviWar::play_game() {
 
 		if (M == mode :: single) {
 			if (man1->get_lives() == 0) {
+				Mix_PlayChannel(1, music->getEffects("end"), 0);
 				currPhase = phase::over;
 				counter = 0;
 			}
 		}
 		else {
 			if (man1->get_lives() == 0 || man2->get_lives() == 0) {
+				Mix_PlayChannel(1, music->getEffects("end"), 0);
 				currPhase = phase::over;
 				counter = 0;
 			}
@@ -239,7 +242,7 @@ void CoviWar::play_game() {
 			// }
 		}
 
-		virus->move(stage, *map, *man1, *man2);
+		virus->move(stage, *map);
 		virus->virus_catch_man(M, *man1);
 		virus->virus_catch_man(M, *man2);
 
@@ -253,7 +256,6 @@ void CoviWar::play_game() {
 			counter = 0;
 		}
 		else if (stage == 0) {                   //play second stage
-
 			srand((unsigned int)time(nullptr));
 			map->initialise(M);
 
@@ -318,6 +320,7 @@ void CoviWar::pause_game() {
 }
 
 void CoviWar::over_game() {
+
 	SDL_SetRenderDrawColor(renderer, 0, 102, 204, 255);
 	SDL_RenderClear(renderer);
 

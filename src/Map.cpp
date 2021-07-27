@@ -30,18 +30,11 @@ void Map::initialise(mode M) {
 	initialize(MAZE);   //maze generatiom
 	generate(MAZE, numin);
 	string MapStringPlayer = savebmp(0, 0, M, MAZE, numin);
-	cout<<"done"<<MapStringPlayer.length()<<endl;
 	for (int i = 0; i < block::y ; i++) {
 		for (int j = 0; j < block::x; j++) {
-			// cout<<i * block::x + j<<endl;
-			// cout<<sizeof(ElementMap)/sizeof(ElementMap[0][0])<<endl;
-			// Element_Map temp = ElementMap[0][0];
-			// ElementMap[0][0] = Element_Map::med;
-			// cout<<i * block::x + j<<endl;
 			ElementMap[i][j] = MapElementFromChar(MapStringPlayer[i * block::x + j]);
 		}
 	}
-	cout<<"done"<<endl;
 	if (M == mode::dual) {
 // ElementMap[18][14] = Element_Map::init_p2;
 // We have to place the player2 somewhere.

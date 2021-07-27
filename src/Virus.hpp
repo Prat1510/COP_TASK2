@@ -157,9 +157,9 @@ class Virus
 		}
 	}
 
-	void move_seek_virus(monoVirus &virus, Map &map) {
+	// void move_seek_virus(monoVirus &virus, Map &map) {
 
-	}
+	// }
 
 public:
 	Virus(ImageMaster* image_master, SoundMaster* sound_master): Image_Master(image_master), Sound_Master(sound_master) {
@@ -222,7 +222,7 @@ public:
 		SDL_DestroyTexture(virus_texture);
 	}
 
-	void move(int stage, Map &map, Man &player1, Man &player2) {
+	void move(int stage, Map &map) {
 		refresh();
 		for (int i = 0; i < count; ++i)
 		{
@@ -252,12 +252,13 @@ public:
 				if (player.is_sanitized()) {
 					temp->state = 0;
 					player.set_money(player.get_money() + 1000);
-					// Play virus death music
-					// Mix_PlayChannel(se_type::beat_enemy, mixer_manager_->get_se(se_type::beat_enemy), 0);
+					Mix_PlayChannel(6, Sound_Master->getEffects("virus"), 0);
 				}
 				else {
 					if (!player.is_masked())
 					{
+						Mix_PlayChannel(6, Sound_Master->getEffects("virus"), 0);
+
 						if (!player.is_infected())
 						{
 							player.set_infected(true, 1000);

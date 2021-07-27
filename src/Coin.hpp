@@ -100,25 +100,25 @@ public:
 		if (allStates[y][x] == edible::coin) {
 			allStates[y][x] = edible::nothing;
 			m1.set_money(m1.get_money() + 10);
-			//play music
+			Mix_PlayChannel(2, music->getEffects("coin"), 0);
 		}
 		else if (allStates[y][x] == edible::medicine && m1.is_infected()) {
 			// allStates[y][x] = edible::nothing;
 			m1.set_money(m1.get_money() + 50);
 			m1.set_infected(false, 0);
-			//play music
+			Mix_PlayChannel(4, music->getEffects("med"), 0);
 		}
 		else if (allStates[y][x] == edible::mask) {
 			allStates[y][x] = edible::nothing;
 			m1.set_money(m1.get_money() + 25);
 			m1.set_masked(true, 400);
-			//play music
+			Mix_PlayChannel(3, music->getEffects("mask"), 0);
 		}
 		else if (allStates[y][x] == edible::sanitizer) {
 			allStates[y][x] = edible::nothing;
 			m1.set_money(m1.get_money() + 25);
 			m1.set_sanitized(true, 300);
-			//play music
+			Mix_PlayChannel(3, music->getEffects("mask"), 0);
 		}
 
 		if (M == mode::dual) {
@@ -128,30 +128,27 @@ public:
 			if (allStates[y][x] == edible::coin) {
 				allStates[y][x] = edible::nothing;
 				m2.set_money(m2.get_money() + 10);
-				//play music
+				Mix_PlayChannel(2, music->getEffects("coin"), 0);
 			}
 			else if (allStates[y][x] == edible::medicine && m2.is_infected()) {
 				// allStates[y][x] = edible::nothing;
 				m2.set_money(m2.get_money() + 50);
 				m2.set_infected(false, 0);
-				//play music
+				Mix_PlayChannel(4, music->getEffects("med"), 0);
 			}
 			else if (allStates[y][x] == edible::mask) {
 				allStates[y][x] = edible::nothing;
 				m2.set_money(m2.get_money() + 25);
 				m2.set_masked(true, 400);
-				//play music
+				Mix_PlayChannel(3, music->getEffects("mask"), 0);
 			}
 			else if (allStates[y][x] == edible::sanitizer) {
 				allStates[y][x] = edible::nothing;
 				m2.set_money(m2.get_money() + 25);
 				m2.set_sanitized(true, 300);
-				//play music
+				Mix_PlayChannel(3, music->getEffects("mask"), 0);
 			}
 		}
-
-		//play music of sanitized
-		//play music of masked
 
 		int count = 0;
 		for (int i = 0; i < block::y; i++) {

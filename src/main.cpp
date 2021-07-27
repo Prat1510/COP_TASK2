@@ -1,9 +1,8 @@
 #include "CoviWar.hpp"
 
-int main(int argc, char const *argv[])
+int main()
 {
     CoviWar game;
-    // cout << "run" << endl;
     game.run();
     return 0;
 }

@@ -20,7 +20,7 @@ const SDL_Color white = {255, 255, 255, 255};
 const SDL_Color black = {0, 0, 0, 255};
 const SDL_Color light_blue = {0, 102, 204, 255};
 const SDL_Color light_brown = {255, 153, 51, 255};
-const SDL_Color purple = {128,0,128, 255};
+const SDL_Color purple = {128, 0, 128, 255};
 }
 
 enum phase
@@ -30,6 +30,8 @@ enum phase
 
 class CoviWar
 {
+	bool startMusic = true;
+
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	int stage;
@@ -39,7 +41,7 @@ class CoviWar
 	int refresh;
 
 	unique_ptr<ImageMaster> imageMaster;
-	unique_ptr<SoundMaster> soundMaster;
+	unique_ptr<SoundMaster> music;
 	unique_ptr<InputMaster> inputMaster;
 	unique_ptr<Map> map;
 	unique_ptr<Coin> coin;
@@ -56,7 +58,7 @@ class CoviWar
 
 	void show_gamebar() {
 		SDL_Texture* bar = imageMaster->get_image(11);
-		SDL_Rect inputCord = {0,0,460,120};
+		SDL_Rect inputCord = {0, 0, 460, 120};
 		// fill source for image
 		const SDL_Rect showCord = {0, display::bar, 460, 120};
 		SDL_RenderCopy(renderer, bar, &inputCord, &showCord);
@@ -65,8 +67,8 @@ class CoviWar
 
 	void show_money() {
 		SDL_Texture* coin_texture = imageMaster->get_image(3);
-		SDL_Rect inputCord = {0,0,20,20};
-		SDL_Rect showCord = {10, display::bar + 30, 20,20}; 
+		SDL_Rect inputCord = {0, 0, 20, 20};
+		SDL_Rect showCord = {10, display::bar + 30, 20, 20};
 		SDL_RenderCopy(renderer, coin_texture, &inputCord, &showCord);
 		SDL_DestroyTexture(coin_texture);
 
@@ -75,8 +77,8 @@ class CoviWar
 		textMaster->renderText(colors::blue, 1, coins, p );
 
 		SDL_Texture* man1_texture = imageMaster->get_image(14);
-		inputCord = {0,0,18,25};
-		showCord = {105, display::bar + 30, 18, 25}; 
+		inputCord = {0, 0, 18, 25};
+		showCord = {105, display::bar + 30, 18, 25};
 		SDL_RenderCopy(renderer, man1_texture, &inputCord, &showCord);
 		SDL_DestroyTexture(man1_texture);
 
@@ -89,8 +91,8 @@ class CoviWar
 		}
 
 		coin_texture = imageMaster->get_image(3);
-		inputCord = {0,0,20,20};
-		showCord = {10, display::bar + 70, 20,20}; 
+		inputCord = {0, 0, 20, 20};
+		showCord = {10, display::bar + 70, 20, 20};
 		SDL_RenderCopy(renderer, coin_texture, &inputCord, &showCord);
 		SDL_DestroyTexture(coin_texture);
 
@@ -99,8 +101,8 @@ class CoviWar
 		textMaster->renderText(colors::blue, 1, coins, p );
 
 		SDL_Texture* man2_texture = imageMaster->get_image(1);
-		inputCord = {0,0,25,25};
-		showCord = {100, display::bar + 70, 25, 25}; 
+		inputCord = {0, 0, 25, 25};
+		showCord = {100, display::bar + 70, 25, 25};
 		SDL_RenderCopy(renderer, man2_texture, &inputCord, &showCord);
 		SDL_DestroyTexture(man2_texture);
 
@@ -217,7 +219,7 @@ public:
 			exit(EXIT_FAILURE);
 		}
 
-		soundMaster = make_unique<SoundMaster>();
+		music = make_unique<SoundMaster>();
 		inputMaster = make_unique<InputMaster>();
 		// cout << "yes" << endl;
 
@@ -227,8 +229,8 @@ public:
 		map = make_unique<Map>(renderer, imageMaster.get());
 		man1 = make_unique<Man>(inputMaster.get(), imageMaster.get(), 0);
 		man2 = make_unique<Man>(inputMaster.get(), imageMaster.get(), 1);
-		virus = make_unique<Virus>(imageMaster.get(), soundMaster.get());
-		coin = make_unique<Coin>(soundMaster.get(), imageMaster.get());
+		virus = make_unique<Virus>(imageMaster.get(), music.get());
+		coin = make_unique<Coin>(music.get(), imageMaster.get());
 		SDL_ShowCursor(SDL_DISABLE);
 		// cout << "yes" << endl;
 
@@ -236,9 +238,13 @@ public:
 
 	void run() {
 		while (true) {
-			 // cout << "yes" << endl;
+			// cout << "yes" << endl;
 			inputMaster->update();
 			// cout << "input" << endl;
+			if (startMusic) {
+				Mix_PlayMusic(music->getMusic(), -1);
+				startMusic = false;
+			}
 			if (currPhase == phase::startup) {startup_game();}
 			else if (currPhase == phase::pregame) pregame_game();
 			else if (currPhase == phase::play) play_game();
