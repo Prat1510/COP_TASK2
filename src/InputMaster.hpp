@@ -5,12 +5,11 @@
 #include "Basic.hpp"
 using namespace std;
 
-// 	left = 0, right = 1, up = 2, down = 3
+// 	left = 2, right = 3, up = 0, down = 1
 // 	h = 4, start = 5, select = 6, space = 7
 
 
 class InputMaster {
-	int m = 2, n = 8;
 	vector<vector<bool>> edge_key = { {false, false, false, false, false, false, false, false},
 		{false, false, false, false, false, false, false, false}
 	};
@@ -28,7 +27,7 @@ public :
 		return edge_key[player_type][button];
 	}
 
-	bool id_pressed_key(int player_type, int button) {
+	bool is_pressed_key(int player_type, int button) {
 		return pressed_key[player_type][button];
 	}
 
@@ -37,16 +36,16 @@ public :
 
 		const Uint8 *keyboard = SDL_GetKeyboardState(nullptr);
 
-		new_key[0][0] = (SDL_PRESSED == keyboard[SDL_SCANCODE_LEFT]);
-		new_key[0][1] = (SDL_PRESSED == keyboard[SDL_SCANCODE_RIGHT]);
-		new_key[0][2] = (SDL_PRESSED == keyboard[SDL_SCANCODE_UP]);
-		new_key[0][3] = (SDL_PRESSED == keyboard[SDL_SCANCODE_DOWN]);
+		new_key[0][0] = (SDL_PRESSED == keyboard[SDL_SCANCODE_UP]);
+		new_key[0][1] = (SDL_PRESSED == keyboard[SDL_SCANCODE_DOWN]);
+		new_key[0][2] = (SDL_PRESSED == keyboard[SDL_SCANCODE_LEFT]);
+		new_key[0][3] = (SDL_PRESSED == keyboard[SDL_SCANCODE_RIGHT]);
 		new_key[0][6] = (SDL_PRESSED == keyboard[SDL_SCANCODE_RETURN]);
 		new_key[0][7] = (SDL_PRESSED == keyboard[SDL_SCANCODE_SPACE]);
 
 		new_key[1][0] = (SDL_PRESSED == keyboard[SDL_SCANCODE_W]);
-		new_key[1][1] = (SDL_PRESSED == keyboard[SDL_SCANCODE_A]);
-		new_key[1][2] = (SDL_PRESSED == keyboard[SDL_SCANCODE_S]);
+		new_key[1][1] = (SDL_PRESSED == keyboard[SDL_SCANCODE_S]);
+		new_key[1][2] = (SDL_PRESSED == keyboard[SDL_SCANCODE_A]);
 		new_key[1][3] = (SDL_PRESSED == keyboard[SDL_SCANCODE_D]);
 		new_key[1][6] = (SDL_PRESSED == keyboard[SDL_SCANCODE_RETURN]);
 		new_key[1][7] = (SDL_PRESSED == keyboard[SDL_SCANCODE_SPACE]);
