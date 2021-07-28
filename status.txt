@@ -1,0 +1,2 @@
+Game is working fully.
+Could not implement the socketing into the game.
