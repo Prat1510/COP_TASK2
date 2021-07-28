@@ -20,10 +20,6 @@ For Ubuntu:
 1)Install the packages using apt-get install 'package'.Install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libraries by replacing 'package' by the library names.
 Example - apt-get install sdl2
 
-For Windows:
-
-
-
 
 RUNNING THE GAME:
 (For all MacOS, Ubuntu and Windows)
