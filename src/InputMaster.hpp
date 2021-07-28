@@ -8,7 +8,6 @@ using namespace std;
 // 	left = 2, right = 3, up = 0, down = 1
 // 	h = 4, start = 5, select = 6, space = 7
 
-
 class InputMaster {
 	vector<vector<bool>> edge_key = { {false, false, false, false, false, false, false, false},
 		{false, false, false, false, false, false, false, false}

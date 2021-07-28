@@ -93,7 +93,7 @@ public:
 	}
 
 
-	bool findState (Man &m1, Man &m2, mode M) {
+	bool findState (Man &m1, Man &m2, mode M, int stage) {
 		point temp = m1.get_cord();
 		int x = temp.x, y = temp.y;
 
@@ -104,20 +104,32 @@ public:
 		}
 		else if (allStates[y][x] == edible::medicine && m1.is_infected()) {
 			// allStates[y][x] = edible::nothing;
-			m1.set_money(m1.get_money() + 50);
+			m1.set_money(m1.get_money() + 200);
 			m1.set_infected(false, 0);
 			Mix_PlayChannel(4, music->getEffects("med"), 0);
 		}
 		else if (allStates[y][x] == edible::mask) {
 			allStates[y][x] = edible::nothing;
-			m1.set_money(m1.get_money() + 25);
-			m1.set_masked(true, 400);
+			m1.set_money(m1.get_money() + 100);
+			if (stage)
+			{
+				m1.set_masked(true, 240);
+			}
+			else{
+				m1.set_masked(true, 400);
+			}
 			Mix_PlayChannel(3, music->getEffects("mask"), 0);
 		}
 		else if (allStates[y][x] == edible::sanitizer) {
 			allStates[y][x] = edible::nothing;
-			m1.set_money(m1.get_money() + 25);
-			m1.set_sanitized(true, 300);
+			m1.set_money(m1.get_money() + 100);
+			if (stage)
+			{
+				m1.set_sanitized(true, 225);
+			}
+			else{
+				m1.set_sanitized(true, 300);
+			}
 			Mix_PlayChannel(3, music->getEffects("mask"), 0);
 		}
 
@@ -132,20 +144,32 @@ public:
 			}
 			else if (allStates[y][x] == edible::medicine && m2.is_infected()) {
 				// allStates[y][x] = edible::nothing;
-				m2.set_money(m2.get_money() + 50);
+				m2.set_money(m2.get_money() + 200);
 				m2.set_infected(false, 0);
 				Mix_PlayChannel(4, music->getEffects("med"), 0);
 			}
 			else if (allStates[y][x] == edible::mask) {
 				allStates[y][x] = edible::nothing;
-				m2.set_money(m2.get_money() + 25);
-				m2.set_masked(true, 400);
+				m2.set_money(m2.get_money() + 100);
+				if (stage)
+				{
+					m2.set_masked(true, 240);
+				}
+				else{
+					m2.set_masked(true, 400);
+				}
 				Mix_PlayChannel(3, music->getEffects("mask"), 0);
 			}
 			else if (allStates[y][x] == edible::sanitizer) {
 				allStates[y][x] = edible::nothing;
-				m2.set_money(m2.get_money() + 25);
-				m2.set_sanitized(true, 300);
+				m2.set_money(m2.get_money() + 100);
+				if (stage)
+				{
+					m2.set_sanitized(true, 225);
+				}
+				else{
+					m2.set_sanitized(true, 300);
+				}
 				Mix_PlayChannel(3, music->getEffects("mask"), 0);
 			}
 		}

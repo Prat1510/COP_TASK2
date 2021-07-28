@@ -251,7 +251,7 @@ public:
 			if (dist < block::size) {
 				if (player.is_sanitized()) {
 					temp->state = 0;
-					player.set_money(player.get_money() + 1000);
+					player.set_money(player.get_money() + 500);
 					Mix_PlayChannel(6, Sound_Master->getEffects("virus"), 0);
 				}
 				else {

@@ -76,7 +76,7 @@ public:
 
 		for (int i = 0; i < 18; i++)
 		{
-			string s = "./data/" + to_string(i) + ".png";
+			string s = "./media/" + to_string(i) + ".png";
 			const char *path = s.c_str();
 			// cout << s << endl;
 			loadPng(path);

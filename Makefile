@@ -2,9 +2,9 @@ TARGET = coviwar
 SRCS = $(wildcard $(SRC_DIR)/*.cpp)
 OBJS = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRCS))
 SRC_DIR = src
-OBJ_DIR = build
+OBJ_DIR = opt
 CXX = g++
-CXXFLAGS = -std=c++17 -O2 -Wall -Wextra -pedantic -Wformat=2 -Wstrict-aliasing=2 -MMD
+CXXFLAGS = -std=c++17 -O2 -w -MMD
 LDFLAGS = $(shell sdl2-config --cflags --libs) -lSDL2_image -lSDL2_mixer -lSDL2_ttf -lm
 ifeq ($(shell uname -s),Darwin)
 	LDFLAGS += -I/usr/local/include

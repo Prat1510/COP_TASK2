@@ -27,8 +27,8 @@ public:
 			exit(EXIT_FAILURE);
 		}
 
-		fonts[0] = TTF_OpenFont("./data/large.otf", 34);
-		fonts[1] = TTF_OpenFont("./data/large.otf", 20);
+		fonts[0] = TTF_OpenFont("./media/large.otf", 34);
+		fonts[1] = TTF_OpenFont("./media/large.otf", 20);
 
 		if (!fonts[0] || !fonts[1]) {
 			cout << "Failed to load lazy font! SDL_ttf Error: " << TTF_GetError() << endl;

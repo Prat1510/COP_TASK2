@@ -246,7 +246,7 @@ void CoviWar::play_game() {
 		virus->virus_catch_man(M, *man1);
 		virus->virus_catch_man(M, *man2);
 
-		if (coin->findState(*man1, *man2, M)) {
+		if (coin->findState(*man1, *man2, M, stage)) {
 			counter++;
 		}
 	}

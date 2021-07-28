@@ -114,8 +114,15 @@ class CoviWar
 	void show_sanitized() {
 		if (man1->get_sanitized()) {
 			SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
-			SDL_Rect showCord = {160, display::bar + 35, man1->get_sanitized() / 4, 15};
-			SDL_RenderFillRect(renderer, &showCord);
+			if (stage)
+			{
+				SDL_Rect showCord = {160, display::bar + 35, man1->get_sanitized() / 3, 15};
+				SDL_RenderFillRect(renderer, &showCord);
+			}
+			else{
+				SDL_Rect showCord = {160, display::bar + 35, man1->get_sanitized() / 4, 15};
+				SDL_RenderFillRect(renderer, &showCord);
+			}
 		}
 
 		if (M == mode::single) {
@@ -124,8 +131,15 @@ class CoviWar
 
 		if (man2->get_sanitized()) {
 			SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
-			SDL_Rect showCord = {160, display::bar + 75, man2->get_sanitized() / 4, 15};
-			SDL_RenderFillRect(renderer, &showCord);
+			if (stage)
+			{
+				SDL_Rect showCord = {160, display::bar + 75, man2->get_sanitized() / 3, 15};
+				SDL_RenderFillRect(renderer, &showCord);
+			}
+			else{
+				SDL_Rect showCord = {160, display::bar + 75, man2->get_sanitized() / 4, 15};
+				SDL_RenderFillRect(renderer, &showCord);
+			}
 		}
 	}
 
@@ -150,8 +164,15 @@ class CoviWar
 	void show_masked() {
 		if (man1->get_masked()) {
 			SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
-			SDL_Rect showCord = {360, display::bar + 35, man1->get_masked() / 5, 15};
-			SDL_RenderFillRect(renderer, &showCord);
+			if (stage)
+			{
+				SDL_Rect showCord = {360, display::bar + 35, man1->get_masked() / 3, 15};
+				SDL_RenderFillRect(renderer, &showCord);
+			}
+			else{
+				SDL_Rect showCord = {360, display::bar + 35, man1->get_masked() / 5, 15};
+				SDL_RenderFillRect(renderer, &showCord);
+			}
 		}
 
 		if (M == mode::single) {
@@ -160,8 +181,15 @@ class CoviWar
 
 		if (man2->get_masked()) {
 			SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
-			SDL_Rect showCord = {360, display::bar + 75, man2->get_masked() / 5, 15};
-			SDL_RenderFillRect(renderer, &showCord);
+			if (stage)
+			{
+				SDL_Rect showCord = {360, display::bar + 75, man2->get_masked() / 3, 15};
+				SDL_RenderFillRect(renderer, &showCord);
+			}
+			else{
+				SDL_Rect showCord = {360, display::bar + 75, man2->get_masked() / 5, 15};
+				SDL_RenderFillRect(renderer, &showCord);
+			}			
 		}
 	}
 

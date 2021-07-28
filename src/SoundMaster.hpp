@@ -50,28 +50,28 @@ public:
 			exit(EXIT_FAILURE);
 		}
 
-		if ( !loadMusic("./data/music.wav") ) {
+		if ( !loadMusic("./media/music.wav") ) {
 			exit(EXIT_FAILURE);
 		}
-		if ( !loadEffects("./data/start.wav", 0) ) {
+		if ( !loadEffects("./media/start.wav", 0) ) {
 			exit(EXIT_FAILURE);
 		}
-		if ( !loadEffects("./data/end.wav", 1) ) {
+		if ( !loadEffects("./media/end.wav", 1) ) {
 			exit(EXIT_FAILURE);
 		}
-		if ( !loadEffects("./data/coin.wav", 2) ) {
+		if ( !loadEffects("./media/coin.wav", 2) ) {
 			exit(EXIT_FAILURE);
 		}
-		if ( !loadEffects("./data/mask.wav", 3) ) {
+		if ( !loadEffects("./media/mask.wav", 3) ) {
 			exit(EXIT_FAILURE);
 		}
-		if ( !loadEffects("./data/med.wav", 4) ) {
+		if ( !loadEffects("./media/med.wav", 4) ) {
 			exit(EXIT_FAILURE);
 		}
-		if ( !loadEffects("./data/stage.wav", 5) ) {
+		if ( !loadEffects("./media/stage.wav", 5) ) {
 			exit(EXIT_FAILURE);
 		}
-		if ( !loadEffects("./data/virus.wav", 6) ) {
+		if ( !loadEffects("./media/virus.wav", 6) ) {
 			exit(EXIT_FAILURE);
 		}
 

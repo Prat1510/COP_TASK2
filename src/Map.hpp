@@ -20,8 +20,6 @@ struct cell {
 
 const int xsize = block::xsize;
 const int ysize = block::ysize;
-// long numin = 1;
-// cell MAZE[xsize][ysize];
 
 inline void initialize(cell (*MAZE)[ysize]) {
 	//Initialize the maze!
@@ -256,7 +254,7 @@ inline string savebmp(int xspecial, int yspecial, mode M, cell (*MAZE)[ysize], l
 			}
 		}
 	}
-	printf("file printed: %s\n", filename);
+	// printf("file printed: %s\n", filename);
 	fclose(outfile);
 
 	int temp_x, temp_y;
@@ -314,10 +312,6 @@ inline string savebmp(int xspecial, int yspecial, mode M, cell (*MAZE)[ysize], l
 		maze[2 * width - 2] = 'Q';
 	}
 
-	// for (int i = 0; i < height; ++i)
-	// {
-	// 	cout << maze.substr(i * width, width) << endl;
-	// }
 	return maze;
 }
 
