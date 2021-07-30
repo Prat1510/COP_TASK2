@@ -202,6 +202,7 @@ void CoviWar::play_game() {
 		else {
 			if (man1->get_lives() == 0 || man2->get_lives() == 0) {
 				Mix_PlayChannel(1, music->getEffects("end"), 0);
+				man2->move(M, *map, server, online);
 				currPhase = phase::over;
 				counter = 0;
 			}
