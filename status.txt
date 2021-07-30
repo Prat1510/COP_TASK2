@@ -1,2 +1,3 @@
 Game is working fully.
-Could not implement the socketing into the game.
+
+implemented the socketing into the game but could not test it properly. So, client and server folder is uploaded separately.
