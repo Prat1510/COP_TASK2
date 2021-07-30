@@ -275,7 +275,7 @@ public:
 
 						if (!player.is_infected())
 						{
-							player.set_infected(true, 1000);
+							player.set_infected(true, 500);
 							return true;
 						}
 						else

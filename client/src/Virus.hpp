@@ -271,6 +271,7 @@ public:
 					IntToByte(i, &msg[1]);
 					ENetPacket* packet = enet_packet_create(msg, 5, 0);
 					enet_peer_send(server, 0 , packet);
+					refresh();
 					Mix_PlayChannel(6, Sound_Master->getEffects("virus"), 0);
 				}
 				else {
@@ -280,7 +281,7 @@ public:
 
 						if (!player.is_infected())
 						{
-							player.set_infected(true, 1000);
+							player.set_infected(true, 500);
 							return true;
 						}
 						else
