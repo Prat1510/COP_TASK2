@@ -171,6 +171,26 @@ public:
 		}
 	}
 
+	void regenerate() {
+
+		if (count == 0) return;
+
+		if (count < 7) {
+			// cout << "yes" << endl;
+			count++;
+			monoVirus temp = {};
+
+			temp.pixel_Cord = viruses[count - 2].pixel_Cord;
+			temp.Cord = viruses[count - 2].Cord;
+			temp.next_Cord = viruses[count - 2].next_Cord;
+			temp.dir = viruses[count - 2].dir;
+			temp.state = 1;
+			viruses.push_back(temp);
+
+			// cout << viruses.size() << endl;
+		}
+	}
+
 	void init(Map &map) {
 		vector<point> start;
 		for (int i = 0; i < block::y; ++i)

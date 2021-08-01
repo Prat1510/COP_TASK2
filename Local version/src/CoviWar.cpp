@@ -139,6 +139,13 @@ void CoviWar::pregame_game() {
 }
 
 void CoviWar::play_game() {
+	t += 1.25 / 60.0;
+	// cout << t << endl;
+	if (t > 20) {
+		t = 0;
+		if (stage == 1) virus->regenerate();
+	}
+
 	map->show(stage);
 	show_gamebar();
 	show_money();
@@ -280,6 +287,7 @@ void CoviWar::play_game() {
 			counter = 0;
 			stage = 1;
 			refresh = 0;
+			t = 0;
 		}
 	}
 }

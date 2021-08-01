@@ -84,6 +84,7 @@ void CoviWar::startup_game() {
 		counter = 0;
 		stage = 0;
 		refresh = 0;
+
 		srand((unsigned int)time(nullptr));
 		map->initialise(M, client, online);
 		// cout<<"here"<<end;
@@ -101,7 +102,7 @@ void CoviWar::startup_game() {
 		//
 		if (M == mode::dual)
 		{
-			// if (online){}	
+			// if (online){}
 			// else{
 			man2->init();
 			man2->set_lives(3);
@@ -140,6 +141,13 @@ void CoviWar::pregame_game() {
 }
 
 void CoviWar::play_game() {
+	t += 1.25 / 60.0;
+	// cout << t << endl;
+	if (t > 20) {
+		t = 0;
+		if (stage == 1) virus->regenerate();
+	}
+
 	map->show(stage);
 	show_gamebar();
 	show_money();
@@ -153,14 +161,14 @@ void CoviWar::play_game() {
 	}
 	coin->show();
 	virus->show();
-	if (online && inputMaster->is_edge_key(0, 7)){
+	if (online && inputMaster->is_edge_key(0, 7)) {
 		currPhase = paus;
 		counter = 0;
 		refresh = 0;
 		unsigned char msg[1];
 		msg[0] = '2';
 		ENetPacket* packet = enet_packet_create(msg, 2, 0);
-		enet_peer_send(client, 0 , packet);	
+		enet_peer_send(client, 0 , packet);
 	}
 	else if (inputMaster->is_edge_key(0, 7) || inputMaster->is_edge_key(1, 7)) {
 		currPhase = phase::paus;
@@ -169,7 +177,7 @@ void CoviWar::play_game() {
 	}
 
 	if (counter == 0) {
-		man1->move(M, *map, client,online);
+		man1->move(M, *map, client, online);
 		if (man1->get_sanitized() > 0) {
 			man1->set_sanitized(true, man1->get_sanitized() - 1);
 		}
@@ -198,9 +206,9 @@ void CoviWar::play_game() {
 
 		if (M == mode::dual) {
 			if (online)
-			{	
+			{
 			}
-			else{
+			else {
 				man2->move(M, *map, client, online);
 				if (man2->get_sanitized() > 0) {
 					man2->set_sanitized(true, man2->get_sanitized() - 1);
@@ -241,7 +249,7 @@ void CoviWar::play_game() {
 		else {
 			if (man1->get_lives() == 0 || man2->get_lives() == 0) {
 				Mix_PlayChannel(1, music->getEffects("end"), 0);
-				man1->move(M, *map, client,online);
+				man1->move(M, *map, client, online);
 				currPhase = phase::over;
 				counter = 0;
 			}
@@ -295,6 +303,8 @@ void CoviWar::play_game() {
 			counter = 0;
 			stage = 1;
 			refresh = 0;
+			t = 0;
+
 		}
 	}
 }
@@ -310,14 +320,14 @@ void CoviWar::paus_game() {
 	show_infected();
 	show_infected();
 	show_masked();
-	if (online && inputMaster->is_edge_key(0, 7)){
+	if (online && inputMaster->is_edge_key(0, 7)) {
 		currPhase = play;
 		counter = 0;
 		refresh = 0;
 		unsigned char msg[1];
 		msg[0] = '2';
 		ENetPacket* packet = enet_packet_create(msg, 2, 0);
-		enet_peer_send(client, 0 , packet);	
+		enet_peer_send(client, 0 , packet);
 	}
 	else if (inputMaster->is_edge_key(0, 7) || inputMaster->is_edge_key(1, 7))
 	{

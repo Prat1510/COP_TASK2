@@ -31,6 +31,7 @@ enum phase
 class CoviWar
 {
 	bool startMusic = true;
+	float t = 0;
 
 	SDL_Window* window;
 	SDL_Renderer* renderer;
@@ -125,7 +126,7 @@ class CoviWar
 				SDL_Rect showCord = {160, display::bar + 35, man1->get_sanitized() / 3, 15};
 				SDL_RenderFillRect(renderer, &showCord);
 			}
-			else{
+			else {
 				SDL_Rect showCord = {160, display::bar + 35, man1->get_sanitized() / 4, 15};
 				SDL_RenderFillRect(renderer, &showCord);
 			}
@@ -142,7 +143,7 @@ class CoviWar
 				SDL_Rect showCord = {160, display::bar + 75, man2->get_sanitized() / 3, 15};
 				SDL_RenderFillRect(renderer, &showCord);
 			}
-			else{
+			else {
 				SDL_Rect showCord = {160, display::bar + 75, man2->get_sanitized() / 4, 15};
 				SDL_RenderFillRect(renderer, &showCord);
 			}
@@ -175,7 +176,7 @@ class CoviWar
 				SDL_Rect showCord = {360, display::bar + 35, man1->get_masked() / 3, 15};
 				SDL_RenderFillRect(renderer, &showCord);
 			}
-			else{
+			else {
 				SDL_Rect showCord = {360, display::bar + 35, man1->get_masked() / 5, 15};
 				SDL_RenderFillRect(renderer, &showCord);
 			}
@@ -192,10 +193,10 @@ class CoviWar
 				SDL_Rect showCord = {360, display::bar + 75, man2->get_masked() / 3, 15};
 				SDL_RenderFillRect(renderer, &showCord);
 			}
-			else{
+			else {
 				SDL_Rect showCord = {360, display::bar + 75, man2->get_masked() / 5, 15};
 				SDL_RenderFillRect(renderer, &showCord);
-			}			
+			}
 		}
 	}
 
@@ -219,7 +220,7 @@ class CoviWar
 	void manage_loop() {
 		int curr;
 		static int prev;
-		int stall = (int) 1000.0 / display::fps;
+		int stall = (int) 1250.0 / display::fps;
 		if (prev) {
 			curr = SDL_GetTicks() - prev;
 			if (curr < stall) {
@@ -242,12 +243,12 @@ public:
 		address.port = 1244;
 		server = enet_host_create(&address, 2, 2, 0, 0);
 		if (server == NULL) {
-	        cout<<"An error occurred while trying to create an ENet server host."<<endl;
-	        return;
-	    }
-	    else{
-	    	cout<<"Server created"<<endl;
-	    }
+			cout << "An error occurred while trying to create an ENet server host." << endl;
+			return;
+		}
+		else {
+			cout << "Server created" << endl;
+		}
 
 		window = SDL_CreateWindow( "CoviWar Awareness", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, display::width, display::height, SDL_WINDOW_SHOWN);
 
@@ -281,43 +282,43 @@ public:
 	void run() {
 		while (true) {
 			// cout<<"running"<<endl;
-			while (enet_host_service(server, &event, 0) > 0){
-				if (event.type == ENET_EVENT_TYPE_CONNECT){
+			while (enet_host_service(server, &event, 0) > 0) {
+				if (event.type == ENET_EVENT_TYPE_CONNECT) {
 					online = true;
 					client = event.peer;
-					cout<<"Client connected"<<endl;
+					cout << "Client connected" << endl;
 				}
-				else if (event.type == ENET_EVENT_TYPE_RECEIVE){
+				else if (event.type == ENET_EVENT_TYPE_RECEIVE) {
 					unsigned char* msg = event.packet->data;
-					if (msg[0] == '1'){
+					if (msg[0] == '1') {
 						point p = {ByteToInt(&msg[1]), ByteToInt(&msg[5])};
 						man2->set_pixel_val(p);
 						if (msg[9] == '1')
 						{
 							man2->set_infected(true, ByteToInt(&msg[13]));
 						}
-						else{
+						else {
 							man2->set_infected(false, 0);
 						}
 						if (msg[17] == '1')
 						{
 							man2->set_masked(true, ByteToInt(&msg[21]));
 						}
-						else{
-							man2->set_masked(false,0);
+						else {
+							man2->set_masked(false, 0);
 						}
 						if (msg[25] == '1')
 						{
 							man2->set_sanitized(true, ByteToInt(&msg[29]));
 						}
-						else{
-							man2->set_sanitized(false,0);
+						else {
+							man2->set_sanitized(false, 0);
 						}
 						man2->set_money(ByteToInt(&msg[33]));
 						man2->set_lives(ByteToInt(&msg[37]));
-						man2->set_cord(ByteToInt(&msg[41]),ByteToInt(&msg[45]));
+						man2->set_cord(ByteToInt(&msg[41]), ByteToInt(&msg[45]));
 					}
-					else if (msg[0] == '2'){
+					else if (msg[0] == '2') {
 						if (currPhase == phase::play)
 						{
 							currPhase = phase::paus;
@@ -327,9 +328,9 @@ public:
 							currPhase = phase::play;
 						}
 					}
-					else if (msg[0] == '4'){
+					else if (msg[0] == '4') {
 						int id = ByteToInt(&msg[1]);
-						virus->setState(id,0);
+						virus->setState(id, 0);
 					}
 					enet_packet_destroy(event.packet);
 				}
@@ -338,7 +339,7 @@ public:
 					client->data = NULL;
 					// event.peer->data = NULL;
 				}
-				else{}
+				else {}
 			}
 
 			inputMaster->update();

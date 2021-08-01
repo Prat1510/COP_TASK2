@@ -1,3 +1,3 @@
 Game is working fully.
 
-implemented the socketing into the game but could not test it properly. So, client and server folder is uploaded separately.
+implemented the socketing into the game. client and server folder is uploaded separately a;ong with local version.

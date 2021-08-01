@@ -125,7 +125,7 @@ class CoviWar
 				SDL_Rect showCord = {160, display::bar + 35, man1->get_sanitized() / 3, 15};
 				SDL_RenderFillRect(renderer, &showCord);
 			}
-			else{
+			else {
 				SDL_Rect showCord = {160, display::bar + 35, man1->get_sanitized() / 4, 15};
 				SDL_RenderFillRect(renderer, &showCord);
 			}
@@ -142,7 +142,7 @@ class CoviWar
 				SDL_Rect showCord = {160, display::bar + 75, man2->get_sanitized() / 3, 15};
 				SDL_RenderFillRect(renderer, &showCord);
 			}
-			else{
+			else {
 				SDL_Rect showCord = {160, display::bar + 75, man2->get_sanitized() / 4, 15};
 				SDL_RenderFillRect(renderer, &showCord);
 			}
@@ -175,7 +175,7 @@ class CoviWar
 				SDL_Rect showCord = {360, display::bar + 35, man1->get_masked() / 3, 15};
 				SDL_RenderFillRect(renderer, &showCord);
 			}
-			else{
+			else {
 				SDL_Rect showCord = {360, display::bar + 35, man1->get_masked() / 5, 15};
 				SDL_RenderFillRect(renderer, &showCord);
 			}
@@ -192,10 +192,10 @@ class CoviWar
 				SDL_Rect showCord = {360, display::bar + 75, man2->get_masked() / 3, 15};
 				SDL_RenderFillRect(renderer, &showCord);
 			}
-			else{
+			else {
 				SDL_Rect showCord = {360, display::bar + 75, man2->get_masked() / 5, 15};
 				SDL_RenderFillRect(renderer, &showCord);
-			}			
+			}
 		}
 	}
 
@@ -219,7 +219,7 @@ class CoviWar
 	void manage_loop() {
 		int curr;
 		static int prev;
-		int stall = (int) 1000.0 / display::fps;
+		int stall = (int) 1250.0 / display::fps;
 		if (prev) {
 			curr = SDL_GetTicks() - prev;
 			if (curr < stall) {
@@ -240,20 +240,20 @@ public:
 		enet_address_set_host(&address, "127.0.0.1");
 		address.port = 1244;
 		client = {0};
-		client = enet_host_create(NULL,1,2,0,0);
+		client = enet_host_create(NULL, 1, 2, 0, 0);
 		server = enet_host_connect(client, &address, 2, 0);
 		if (server == NULL) {
-	        cout<<"An error occurred while trying to create an ENet server host."<<endl;
-	        return;
-	    }
-	    if (enet_host_service(client, &event, 5000) > 0 &&
-		    event.type == ENET_EVENT_TYPE_CONNECT) {
-		    cout<<"Connection to some.server.net:1234 succeeded."<<endl;
+			cout << "An error occurred while trying to create an ENet server host." << endl;
+			return;
+		}
+		if (enet_host_service(client, &event, 5000) > 0 &&
+		        event.type == ENET_EVENT_TYPE_CONNECT) {
+			cout << "Connection to some.server.net:1234 succeeded." << endl;
 			online = true;
-		} 
+		}
 		else {
-	   	    enet_peer_reset(server);
-		    cout<<"Connection failed."<<endl;
+			enet_peer_reset(server);
+			cout << "Connection failed." << endl;
 		}
 		window = SDL_CreateWindow( "CoviWar Awareness", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, display::width, display::height, SDL_WINDOW_SHOWN);
 
@@ -287,10 +287,10 @@ public:
 	void run() {
 		while (true) {
 			// cout<<"here"<<endl;
-			while (enet_host_service(client, &event, 0) > 0){
-				if (event.type == ENET_EVENT_TYPE_RECEIVE){
+			while (enet_host_service(client, &event, 0) > 0) {
+				if (event.type == ENET_EVENT_TYPE_RECEIVE) {
 					unsigned char* msg = event.packet->data;
-					if (msg[0] == '1'){
+					if (msg[0] == '1') {
 						// cout<<"receive man1"<<endl;
 
 						point p = {ByteToInt(&msg[1]), ByteToInt(&msg[5])};
@@ -299,28 +299,28 @@ public:
 						{
 							man1->set_infected(true, ByteToInt(&msg[13]));
 						}
-						else{
+						else {
 							man1->set_infected(false, 0);
 						}
 						if (msg[17] == '1')
 						{
 							man1->set_masked(true, ByteToInt(&msg[21]));
 						}
-						else{
-							man1->set_masked(false,0);
+						else {
+							man1->set_masked(false, 0);
 						}
 						if (msg[25] == '1')
 						{
 							man1->set_sanitized(true, ByteToInt(&msg[29]));
 						}
-						else{
-							man1->set_sanitized(false,0);
+						else {
+							man1->set_sanitized(false, 0);
 						}
 						man1->set_money(ByteToInt(&msg[33]));
 						man1->set_lives(ByteToInt(&msg[37]));
-						man1->set_cord(ByteToInt(&msg[41]),ByteToInt(&msg[45]));
+						man1->set_cord(ByteToInt(&msg[41]), ByteToInt(&msg[45]));
 					}
-					else if (msg[0] == '2'){
+					else if (msg[0] == '2') {
 						if (currPhase == phase::play)
 						{
 							currPhase = phase::paus;
@@ -330,23 +330,23 @@ public:
 							currPhase = phase::play;
 						}
 					}
-					else if (msg[0] == '3'){
+					else if (msg[0] == '3') {
 						unsigned char* msg = event.packet->data;
 						int n = msg[1];
 						for (int i = 0; i < n; i++)
 						{
-							virus->setPixel(i,ByteToInt(&msg[2+i*8]),ByteToInt(&msg[6+i*8]));
+							virus->setPixel(i, ByteToInt(&msg[2 + i * 8]), ByteToInt(&msg[6 + i * 8]));
 						}
-						if (virus->getSize() > n){
+						if (virus->getSize() > n) {
 							virus->setState(n, 0);
 							n++;
 						}
 					}
-					else{
+					else {
 						string temp(reinterpret_cast< char const* >(event.packet->data) );
 						map->initialise(mode::dual, online, temp);
 						counter++;
-						cout<<"increased"<<endl;
+						cout << "increased" << endl;
 					}
 					enet_packet_destroy(event.packet);
 				}
@@ -355,7 +355,7 @@ public:
 					server->data = NULL;
 					// event.peer->data = NULL;
 				}
-				else{}
+				else {}
 			}
 
 			inputMaster->update();

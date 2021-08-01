@@ -171,6 +171,26 @@ public:
 		}
 	}
 
+	void regenerate() {
+
+		if (count == 0) return;
+
+		if (count < 7) {
+			// cout << "yes" << endl;
+			count++;
+			monoVirus temp = {};
+
+			temp.pixel_Cord = viruses[count - 2].pixel_Cord;
+			temp.Cord = viruses[count - 2].Cord;
+			temp.next_Cord = viruses[count - 2].next_Cord;
+			temp.dir = viruses[count - 2].dir;
+			temp.state = 1;
+			viruses.push_back(temp);
+
+			// cout << viruses.size() << endl;
+		}
+	}
+
 	void init(Map &map) {
 		vector<point> start;
 		for (int i = 0; i < block::y; ++i)
@@ -224,17 +244,17 @@ public:
 
 	void move(int stage, Map &map, bool online, ENetPeer* client) {
 		refresh();
-		unsigned char msg[viruses.size()*8 + 3];
+		unsigned char msg[viruses.size() * 8 + 3];
 		msg[0] = '3';
 		msg[1] = viruses.size();
 		for (int i = 0; i < viruses.size(); i++)
 		{
-			IntToByte(viruses[i].pixel_Cord.x, &msg[i*8 + 2]);
-			IntToByte(viruses[i].pixel_Cord.y, &msg[i*8 + 6]);	
+			IntToByte(viruses[i].pixel_Cord.x, &msg[i * 8 + 2]);
+			IntToByte(viruses[i].pixel_Cord.y, &msg[i * 8 + 6]);
 		}
 		if (online)
 		{
-			ENetPacket* packet = enet_packet_create(msg, 8*viruses.size()+3, 0);
+			ENetPacket* packet = enet_packet_create(msg, 8 * viruses.size() + 3, 0);
 			enet_peer_send(client, 0 , packet);
 		}
 
@@ -290,12 +310,12 @@ public:
 
 		return false;
 	}
-	void setState(int ID, int state){
+	void setState(int ID, int state) {
 		viruses[ID].state = state;
 	}
-	void setPixel(int ID, int x, int y){
+	void setPixel(int ID, int x, int y) {
 		viruses[ID].pixel_Cord.x = x;
-		viruses[ID].pixel_Cord.y = y;	
+		viruses[ID].pixel_Cord.y = y;
 	}
 
 	~Virus() {};

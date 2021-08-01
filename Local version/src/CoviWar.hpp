@@ -31,6 +31,7 @@ enum phase
 class CoviWar
 {
 	bool startMusic = true;
+	float t = 0;
 
 	SDL_Window* window;
 	SDL_Renderer* renderer;
@@ -119,7 +120,7 @@ class CoviWar
 				SDL_Rect showCord = {160, display::bar + 35, man1->get_sanitized() / 3, 15};
 				SDL_RenderFillRect(renderer, &showCord);
 			}
-			else{
+			else {
 				SDL_Rect showCord = {160, display::bar + 35, man1->get_sanitized() / 4, 15};
 				SDL_RenderFillRect(renderer, &showCord);
 			}
@@ -136,7 +137,7 @@ class CoviWar
 				SDL_Rect showCord = {160, display::bar + 75, man2->get_sanitized() / 3, 15};
 				SDL_RenderFillRect(renderer, &showCord);
 			}
-			else{
+			else {
 				SDL_Rect showCord = {160, display::bar + 75, man2->get_sanitized() / 4, 15};
 				SDL_RenderFillRect(renderer, &showCord);
 			}
@@ -169,7 +170,7 @@ class CoviWar
 				SDL_Rect showCord = {360, display::bar + 35, man1->get_masked() / 3, 15};
 				SDL_RenderFillRect(renderer, &showCord);
 			}
-			else{
+			else {
 				SDL_Rect showCord = {360, display::bar + 35, man1->get_masked() / 5, 15};
 				SDL_RenderFillRect(renderer, &showCord);
 			}
@@ -186,10 +187,10 @@ class CoviWar
 				SDL_Rect showCord = {360, display::bar + 75, man2->get_masked() / 3, 15};
 				SDL_RenderFillRect(renderer, &showCord);
 			}
-			else{
+			else {
 				SDL_Rect showCord = {360, display::bar + 75, man2->get_masked() / 5, 15};
 				SDL_RenderFillRect(renderer, &showCord);
-			}			
+			}
 		}
 	}
 
@@ -213,7 +214,7 @@ class CoviWar
 	void manage_loop() {
 		int curr;
 		static int prev;
-		int stall = (int) 1000.0 / display::fps;
+		int stall = (int) 1250.0 / display::fps;
 		if (prev) {
 			curr = SDL_GetTicks() - prev;
 			if (curr < stall) {
@@ -265,8 +266,10 @@ public:
 	};
 
 	void run() {
+		int count  = 0;
 		while (true) {
 			// cout << "yes" << endl;
+
 			inputMaster->update();
 			// cout << "input" << endl;
 			if (startMusic) {
