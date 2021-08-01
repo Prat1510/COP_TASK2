@@ -1,16 +1,15 @@
 # COP_TASK2
-2 player maze game
-Covi-War
+2 player maze game : Covi-War <br /> 
 
-Basic requirement:
-C++17 
-SDL2
-SDL2_Image
-SDL2_Ttf
-SDL2_Net
-SDL2_Mixer
+Basic requirement:<br /> 
+C++17 <br /> 
+SDL2<br /> 
+SDL2_Image<br /> 
+SDL2_Ttf<br /> 
+ENet<br /> 
+SDL2_Mixer<br /> 
 
-INSTALLATION OF SDL2 PACKAGES:
+INSTALLATION OF SDL2 PACKAGES:<br /> 
 
 For MacOS:<br /> 
 1) Install the packages using brew install 'package'. Install sdl2, sdl2_image, sdl2_ttf, sdl2_net, sdl2_mixer libraries by replacing 'package' by the library names.<br /> 
@@ -33,9 +32,7 @@ git clone https://github.com/Prat1510/COP_TASK2 <br />
 
 4) You can run the game any number of times. Use 'make clean' command to remove the executables and other temporary files.<br /> 
 
-AUTHORS:<br /> 
-Prateek Chaudhury and 
-Gunjan Kumar<br /> 
+AUTHORS: Prateek Chaudhury and Gunjan Kumar<br /> 
 
 RESOURCES:<br /> 
 1)https://lazyfoo.net/SDL_tutorials/<br /> 
